@@ -1,11 +1,16 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Event
 from .forms import EventForm
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
+    model = Event
     template_name = "events/home.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+        return Event.objects.filter(is_deleted=False)
 
 
 class EventListView(ListView):

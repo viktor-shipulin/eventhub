@@ -27,8 +27,29 @@
                 </div>
             </div>
         </div>
+
+        <h2>Все события</h2>
         <div class="row">
-          
+            {% for event in events %}
+                <div class="col s12 m6 l4">
+                    <article class="event-card">
+                        {% if event.poster %}
+                            <img src="{{ event.poster.url }}" alt="{{ event.title }}" class="event-poster">
+                        {% endif %}
+                        <h2>{{ event.title }}</h2>
+                        <p class="event-date">{{ event.starts_at|date:"d E Y, H:i" }}</p>
+                        <p>{{ event.summary }}</p>
+                        <a href="{% url 'events:event_detail' event.pk %}" class="feature-link">Открыть карточку</a>
+                    </article>
+                </div>
+            {% empty %}
+                <div class="col s12">
+                    <article class="event-card">
+                        <h2>Событий пока нет</h2>
+                        <p>После добавления первых записей они появятся здесь автоматически.</p>
+                    </article>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </section>
