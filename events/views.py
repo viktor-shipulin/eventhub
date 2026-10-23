@@ -31,9 +31,11 @@ class EventDetailView(DetailView):
 
 
 class OwnerRequiredMixin(UserPassesTestMixin):
+    """Админ (суперпользователь) правит любые события, остальные только свои."""
 
     def test_func(self):
-        return self.get_object().owner == self.request.user
+        user = self.request.user
+        return user.is_superuser or self.get_object().owner == user
 
 
 class EventCreateView(LoginRequiredMixin, CreateView):

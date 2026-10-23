@@ -40,6 +40,9 @@
                         <p class="event-date">{{ event.starts_at|date:"d E Y, H:i" }}</p>
                         <p>{{ event.summary }}</p>
                         <a href="{% url 'events:event_detail' event.pk %}" class="feature-link">Открыть карточку</a>
+                        {% if user.is_superuser or user == event.owner %}
+                            <a href="{% url 'events:event_update' event.pk %}" class="feature-link">Редактировать</a>
+                        {% endif %}
                     </article>
                 </div>
             {% empty %}
